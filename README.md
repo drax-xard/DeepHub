@@ -1,6 +1,6 @@
 # DeepHub
 
-A DeepSeek pricing indicator for the OpenCode TUI.
+A DeepSeek pricing indicator for the OpenCode TUI and OpenCode Desktop.
 
 - Shows `● PEAK` or `● OFF-PEAK` in the prompt footer, with an optional countdown to the next change.
 - Hover the indicator to see the current DeepSeek rates for the selected model.
@@ -89,11 +89,35 @@ Prices are in USD per 1M tokens, from the [DeepSeek API pricing page](https://ap
 
 If DeepSeek changes its prices, update `DEEPSEEK_MODELS` in `src/deephub.ts`.
 
+## OpenCode Desktop GUI
+
+DeepHub also includes a Desktop overlay. It adds a draggable pill to every Desktop window with the same PEAK/OFF-PEAK state and countdown, and a hover popup with the current rates. Click the pill to switch models, or drag it to move it. The chosen model and position are remembered.
+
+Build the Desktop bundles:
+
+```sh
+npm run build:desktop
+```
+
+This writes:
+
+- `dist/deephub-0.2.0.ocdx` — the OpenCode GUI extension archive.
+- `dist/deephub-overlay.js` — the standalone overlay script.
+
+### Installing the Desktop extension
+
+OpenCode Desktop currently accepts third-party GUI extension archives only in unpackaged/development builds, and it has no published installer UI for them yet. The `.ocdx` archive is ready for that extension manager; its main entry injects the overlay into each Desktop window and removes it when the extension is disabled.
+
+In a packaged Desktop build the overlay must be included as a built-in main extension at build time. To use it right now in any Desktop build, paste the contents of `dist/deephub-overlay.js` into the Desktop renderer DevTools console. It mounts the same draggable pill and hover popup until the window reloads.
+
+The Desktop overlay defaults to `deepseek-flash` and cycles models by click, because a main-only desktop extension cannot read the GUI's selected model without the renderer extension API.
+
 ## Development
 
 ```sh
 npm install
 npm run check
+npm run build:desktop
 ```
 
-`npm run check` runs the TypeScript check and the peak/pricing unit tests.
+`npm run check` runs the TypeScript check and the peak/pricing/overlay tests.

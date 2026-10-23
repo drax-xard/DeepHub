@@ -1,7 +1,7 @@
 {
   "name": "opencode-deephub",
-  "version": "0.1.0",
-  "description": "DeepSeek peak/off-peak pricing indicator for the OpenCode TUI",
+  "version": "0.2.0",
+  "description": "DeepSeek peak/off-peak pricing indicator for OpenCode TUI and Desktop",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -13,13 +13,16 @@
   "files": [
     "src/tui.tsx",
     "src/deephub.ts",
+    "src/desktop",
+    "scripts",
     "README.md",
     "tui.example.json"
   ],
   "scripts": {
-    "test": "node --test src/deephub.test.ts",
+    "test": "node --test src/deephub.test.ts src/desktop/client.test.ts",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm test"
+    "check": "npm run typecheck && npm test",
+    "build:desktop": "node scripts/build-desktop.mjs"
   },
   "peerDependencies": {
     "@opencode-ai/plugin": ">=1.18.0",
@@ -41,6 +44,9 @@
     "@opentui/keymap": "0.4.5",
     "@opentui/solid": "0.4.5",
     "@types/node": "^24.0.0",
+    "esbuild": "^0.25.12",
+    "fflate": "^0.8.3",
+    "happy-dom": "^20.0.11",
     "solid-js": "1.9.12",
     "typescript": "^5.8.2"
   }
